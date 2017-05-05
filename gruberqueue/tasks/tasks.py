@@ -16,10 +16,7 @@ def add_usingR(x,y):
     docker_opts = '-v /opt/osucybercom/data/static/campgruber:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
     print docker_cmd, docker_opts
-    try:
-        result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    except:
-        pass 
+    result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
 
@@ -41,10 +38,7 @@ def runRscript_file(args):
     #Run R Script
     docker_opts = " --rm -v /opt/osucybercom/data/static/campgruber:/script:z -w /script "
     docker_cmd =" Rscript /script/simple.R "
-    try:
-        result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    except:
-        pass
+    result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
 
