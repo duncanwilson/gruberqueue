@@ -9,16 +9,6 @@ import json as jsonx
 basedir="/data/static/campgruber"
 
 
-#Example task
-@task()
-def add(x, y):
-    """ Example task that adds two numbers or strings
-        args: x and y
-        return addition or concatination of strings
-    """
-    result = x + y
-    return result
-
 @task()
 def add_usingR(x,y):
     task_id = str(add_usingR.request.id)
