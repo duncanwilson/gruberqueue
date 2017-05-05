@@ -6,7 +6,7 @@ import os
 import json as jsonx
 
 #Default base directory 
-basedir="/data/static/"
+basedir="/data/static/campgruber"
 
 
 #Example task
@@ -23,14 +23,14 @@ def add(x, y):
 def add_usingR(x,y):
     task_id = str(add_usingR.request.id)
     resultDir = setup_result_directory(task_id)
-    docker_opts = '-v /opt/someapp/data/static:/script:z -w /script '	
+    docker_opts = '-v /opt/osucybercom/data/static/campgruber:/script:z -w /script '	
     docker_cmd ="Rscript /script/add_usingR.R {0} {1}".format(x,y)
     print docker_cmd, docker_opts
     try:
-        result = docker_task(docker_name="rocker/r-base",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+        result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
         pass 
-    result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
+    result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
 
     
@@ -49,20 +49,23 @@ def runRscript_file(args):
     with open(resultDir + '/input/args.json', "w") as f:
         jsonx.dump(args,f)
     #Run R Script
-    docker_opts = " --rm -v /opt/someapp/data/static:/script:z -w /script "
+    docker_opts = " --rm -v /opt/osucybercom/data/static/campgruber:/script:z -w /script "
     docker_cmd =" Rscript /script/simple.R "
     try:
-        result = docker_task(docker_name="gruber_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
+        result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     except:
         pass
-    result_url ="http://{0}/someapp_tasks/{1}".format("cybercom-dev.tigr.cf",task_id)
+    result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
 
 	
 def setup_result_directory(task_id):
-    resultDir = os.path.join(basedir, 'someapp_tasks/', task_id)
+    resultDir = os.path.join(basedir, 'tasks/', task_id)
     os.makedirs(resultDir)
+    os.chmod(resultDir,0777)
     os.makedirs("{0}/input".format(resultDir))
+    os.chmod("{0}/input".format(resultDir),0777)
     os.makedirs("{0}/output".format(resultDir))
+    os.chmod("{0}/output".format(resultDir),0777)
     return resultDir 
 
