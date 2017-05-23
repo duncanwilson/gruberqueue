@@ -1,6 +1,7 @@
 from celery.task import task
 from dockertask import docker_task
 from subprocess import call,STDOUT
+from shutil import copyfile, move
 import requests
 import os
 import json as jsonx
@@ -40,9 +41,10 @@ def runRscript_file(args):
     docker_cmd =" Rscript /script/simple.R "
     result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
     reportDir = os.path.join('/opt/osucybercom/data/static/campgruber/tasks/', task_id, 'report')
-    print(reportDir)
-    tmp = '{0}/testing_R.txt'.format(reportDir)
-    os.rename("/opt/osucybercom/data/static/campgruber/testing_R.txt", tmp)
+    print reportDir
+    #tmp = '{0}/testing_R.txt'.format(reportDir)
+    #os.rename("/opt/osucybercom/data/static/campgruber/testing_R.txt", tmp)
+    move("/data/static/campgruber/testing_R.txt","{0}/report/testing_R.txt".format(resultDir))
     result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
 
