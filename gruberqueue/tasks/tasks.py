@@ -51,5 +51,7 @@ def setup_result_directory(task_id):
     os.chmod("{0}/input".format(resultDir),0777)
     os.makedirs("{0}/output".format(resultDir))
     os.chmod("{0}/output".format(resultDir),0777)
+    os.makedirs("{0}/report".format(resultDir))
+    os.chmod("{0}/report".format(resultDir),0777)
     return resultDir 
 
