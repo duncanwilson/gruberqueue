@@ -39,7 +39,7 @@ def runRscript_file(args):
     docker_opts = " --rm -v /opt/osucybercom/data/static/campgruber:/script:z -w /script "
     docker_cmd =" Rscript /script/simple.R "
     result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    reportDir = os.path.join(basedir, 'tasks/', task_id, 'report/')
+    reportDir = os.path.join(basedir, 'tasks/', task_id, 'report')
     os.rename("/opt/osucybercom/data/static/campgruber/testing_R.txt", "{0}/testing_R.txt".format(reportDir))
     result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
