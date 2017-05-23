@@ -36,11 +36,13 @@ def runRscript_file(args):
     with open(resultDir + '/input/args.json', "w") as f:
         jsonx.dump(args,f)
     #Run R Script
-    docker_opts = " --rm -v /opt/osucybercom/data/static/campgruber:/script:z -w /script "
+    docker_opts = " -v /opt/osucybercom/data/static/campgruber:/script:z -w /script "
     docker_cmd =" Rscript /script/simple.R "
     result = docker_task(docker_name="cybercom_r",docker_opts=docker_opts,docker_command=docker_cmd,id=task_id)
-    reportDir = os.path.join('/opt/osucybercom/data/static/campgruber/', 'tasks/', task_id, 'report')
-    os.rename("/opt/osucybercom/data/static/campgruber/testing_R.txt", "{0}/testing_R.txt".format(reportDir))
+    reportDir = os.path.join('/opt/osucybercom/data/static/campgruber/tasks/', task_id, 'report')
+    print(reportDir)
+    tmp = '{0}/testing_R.txt'.format(reportDir)
+    os.rename("/opt/osucybercom/data/static/campgruber/testing_R.txt", tmp)
     result_url ="http://{0}/campgruber/tasks/{1}".format("cybercom-app.hpc.okstate.edu",task_id)
     return result_url
 
